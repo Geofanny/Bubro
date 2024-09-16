@@ -18,4 +18,6 @@ Route::get('/', function () {
 });
 
 // ROUTE ADMIN
-Route::get('/product-admin',[ProductController::class,'index']);
+Route::get('/product-admin',[ProductController::class,'viewIndex']);
+Route::get('/product-insert',[ProductController::class,'viewInsert']);
+Route::post('/newProduct',[ProductController::class,'insert']);

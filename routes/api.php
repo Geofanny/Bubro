@@ -40,9 +40,6 @@ Route::middleware(['auth:sanctum'])->group(function(){
 	Route::get('/logtokenuserlogin',[AuthController::class,'logToken']);
 });
 
-
-
-
 // AUTH
 Route::post('/login',[AuthController::class,'login']);
 

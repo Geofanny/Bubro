@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\File;
@@ -25,6 +26,45 @@ class ProductController extends Controller
 
         // mirip dengan Tipe 1 tapi menggunakan resource dan harus di instal dulu packpage nya 
         return ProductResource::collection($products);
+    }
+
+    public function viewIndex()
+    {
+        return view('dashboard-admin/product');
+    }
+    public function viewInsert()
+    {
+        $category =  Category::first()->get();
+        return view('dashboard-admin/insert-product',['categories' => $category]);
+    }
+    public function insert(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $fileName = null;
+        if ($request->hasFile('image')) {
+            // generate random string untuk nama file
+            $fileName = $this->generateRandomString();
+            // ambil extension file
+            $extension = $request->file('image')->extension();
+
+            // Simpan file gambar ke storage
+            Storage::putFileAs('product-image', $request->file('image'), $fileName . '.' . $extension);
+        }
+
+        // Simpan data produk ke database
+        Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'category_id' => $request->category,
+            'image' => $fileName ? $fileName . '.' . $extension : null,
+            'stock' => $request->stock
+        ]);
+
+        return redirect('/product-admin');
     }
 
     /**
