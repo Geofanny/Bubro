@@ -1,7 +1,7 @@
 document.getElementById('price').addEventListener('input', (event) => {
     const input = event.target.value;
     // Hanya mengizinkan angka dari 1 hingga 9
-    const validPattern = /^[1-9]*$/;
+    const validPattern = /^[0-9]*$/;
 
     if (!validPattern.test(input)) {
         // Menghapus karakter yang tidak valid dari input

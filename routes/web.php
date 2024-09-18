@@ -21,3 +21,4 @@ Route::get('/', function () {
 Route::get('/product-admin',[ProductController::class,'viewIndex']);
 Route::get('/product-insert',[ProductController::class,'viewInsert']);
 Route::post('/newProduct',[ProductController::class,'insert']);
+Route::get('/product-edit/{id}',[ProductController::class,'edit']);

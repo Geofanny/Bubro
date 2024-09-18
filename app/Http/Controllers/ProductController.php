@@ -30,7 +30,8 @@ class ProductController extends Controller
 
     public function viewIndex()
     {
-        return view('dashboard-admin/product');
+        $products = Product::get();
+        return view('dashboard-admin/product',['products' => $products]);
     }
     public function viewInsert()
     {
@@ -44,16 +45,36 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
+        // $fileName = null;
+        // if ($request->hasFile('image')) {
+        //     // generate random string untuk nama file
+        //     $fileName = $this->generateRandomString();
+        //     // ambil extension file
+        //     $extension = $request->file('image')->extension();
+
+        //     // Simpan file gambar ke storage
+        //     Storage::putFileAs('product-image', $request->file('image'), $fileName . '.' . $extension);
+        // }
+
         $fileName = null;
         if ($request->hasFile('image')) {
-            // generate random string untuk nama file
+        // generate random string untuk nama file
             $fileName = $this->generateRandomString();
-            // ambil extension file
+        // ambil extension file
             $extension = $request->file('image')->extension();
 
-            // Simpan file gambar ke storage
-            Storage::putFileAs('product-image', $request->file('image'), $fileName . '.' . $extension);
+        // Path tujuan di folder public
+            $path = public_path('product-image');
+
+        // Pastikan folder ada, jika tidak, buat foldernya
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+         // Simpan file gambar ke folder public/product-image
+            $request->file('image')->move($path, $fileName . '.' . $extension);
         }
+
 
         // Simpan data produk ke database
         Product::create([
@@ -137,9 +158,14 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $category =  Category::first()->get();
+        return view('dashboard-admin/edit-product',[
+            'product' => $product,
+            'categories' => $category
+        ]);
     }
 
     /**
