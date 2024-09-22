@@ -159,9 +159,9 @@
             <!-- Navbar End -->
 
 
-            <!-- Product Start -->
+            <!-- Category Start -->
             <div class="container-fluid pt-4 px-4">
-                <h3>Product</h3>
+                <h3>Category</h3>
                 <hr>
                 @if($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -171,71 +171,44 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
-                <form action="/newProduct" method="POST" enctype="multipart/form-data">
+                <form action="/newCategory" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name Product</label>
+                        <label for="name" class="form-label">Name Category</label>
                         <input type="text" class="form-control" name="name" id="name" required="">
                     </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price Product</label>
-                        <input type="text" class="form-control" name="price" id="price" required="">
+                    <div class="d-flex justify-content-between mb-5">
+                        <!-- Kembali Button -->
+                        <a href="/category-admin" class="btn btn-secondary">Back</a>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                    <div class="mb-3">
-                     <label for="category" class="form-label">Category Product</label>
-                     <select class="form-select" id="category" name="category" required="">
-                         <option value="" disabled selected>Select Category</option>
-                         @if(!$categories->isEmpty())
-                         @foreach($categories as $category)
-                         <option value="{{ $category->id }}" class="text-capitalize">
-                            {{ $category->name }}
-                        </option>
-                        @endforeach
-                        @else
-                        <option value="" disabled>No Categories Available</option>
-                        @endif
-                    </select>
-                </div>
-                <div class="mb-3">
-                   <label for="image" class="form-label">Image Product</label>
-                   <input type="file" class="form-control" name="image" id="image" accept=".jpg, .jpeg, .png" required>
-               </div>
-               <div class="mb-3">
-                   <label for="stock" class="form-label">Stock Product</label>
-                   <input type="text" class="form-control" name="stock" id="stock" required="">
-               </div>
-               <div class="d-flex justify-content-between mb-5">
-                <!-- Kembali Button -->
-                <a href="/product-admin" class="btn btn-secondary">Back</a>
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
-        </form>
+            <!-- Category End -->
+
+        </div>
+        <!-- Content End -->
+
     </div>
-    <!-- Product End -->
 
-</div>
-<!-- Content End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-</div>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/chart/chart.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/tempusdominus/js/moment.min.js"></script>
-<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
-<script src="js/validation-input.js"></script>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script src="js/validation-input.js"></script>
 </body>
 
 </html>

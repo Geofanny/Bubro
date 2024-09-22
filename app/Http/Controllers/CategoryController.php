@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::get();
+        return view('dashboard-admin/product/category/category',['categories' => $categories]);
     }
 
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard-admin/product/category/insert-category');
     }
 
     /**
@@ -28,7 +29,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required'
+        ]);
+
+        Category::create([
+            'name' => $request->name
+        ]);
+        return redirect('/category-admin');
     }
 
     /**
@@ -42,24 +50,30 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Request $request,$id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('dashboard-admin/product/category/edit-category',['category' => $category]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->name = $request->input('name');
+        $category->save();
+        return redirect('/category-admin');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('/category-admin')->with('success', 'Category deleted successfully!');
     }
 }

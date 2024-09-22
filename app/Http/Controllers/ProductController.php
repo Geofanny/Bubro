@@ -31,12 +31,12 @@ class ProductController extends Controller
     public function viewIndex()
     {
         $products = Product::get();
-        return view('dashboard-admin/product',['products' => $products]);
+        return view('dashboard-admin/product/product',['products' => $products]);
     }
     public function viewInsert()
     {
         $category =  Category::first()->get();
-        return view('dashboard-admin/insert-product',['categories' => $category]);
+        return view('dashboard-admin/product/insert-product',['categories' => $category]);
     }
     public function insert(Request $request)
     {
@@ -88,6 +88,63 @@ class ProductController extends Controller
         return redirect('/product-admin');
     }
 
+    public function updateProduct(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'category' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->name = $request->input('name');
+        $product->price = $request->input('price');
+        $product->category_id = $request->input('category');
+        $product->stock = $request->input('stock');
+
+        $fileName = null;
+        if ($request->hasFile('image')) {
+        // generate random string untuk nama file
+            $fileName = $this->generateRandomString();
+
+        // ambil extension file
+            $extension = $request->file('image')->extension();
+
+        // Path tujuan di folder public
+            $path = public_path('product-image');
+
+        // Pastikan folder ada, jika tidak, buat foldernya
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+        // Simpan file gambar ke folder public/product-image
+            $request->file('image')->move($path, $fileName . '.' . $extension);
+
+        // Set nama file yang baru ke dalam database
+            $product->image = $fileName . '.' . $extension;
+        }
+
+        $product->save();
+        return redirect('/product-admin');
+    }
+    public function deleteProduct($id)
+    {
+        $product = Product::findOrFail($id);
+
+        if ($product->image) {
+            $imagePath = public_path('product-image/' . $product->image);
+
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        $product->delete();
+        return redirect('/product-admin')->with('success', 'Product deleted successfully!');
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -162,7 +219,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $category =  Category::first()->get();
-        return view('dashboard-admin/edit-product',[
+        return view('dashboard-admin/product/edit-product',[
             'product' => $product,
             'categories' => $category
         ]);
