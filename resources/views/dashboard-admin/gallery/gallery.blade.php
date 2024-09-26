@@ -1,9 +1,9 @@
 <x-dashboard-admin>
-    <h3>Product</h3>
+    <h3>Gallery</h3>
     <hr>
     <div class="mb-3">
-        <a href="/product-insert" class="btn btn-success">
-            New Product +
+        <a href="/gallery-insert" class="btn btn-success">
+            New Gallery +
         </a>
     </div>
     <div class="table-responsive">
@@ -11,40 +11,34 @@
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Image</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Content</th>
                     <th scope="col">Created at</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-            @if($products->isEmpty())
+            @if($galleries->isEmpty())
             <tr>
                 <td colspan="8" class="text-center">No data available</td>
             </tr>
             @else
-            @foreach($products as $product)
+            @foreach($galleries as $gallery)
             <tr>
                 <th scope="row">{{$loop->iteration}}</th>
-                <td class="text-capitalize">{{$product->name}}</td>
-                <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                <td class="text-capitalize">{{$product->category->name}}</td>
-                <td>{{$product->stock}}</td>
+                <td class="text-capitalize">{{$gallery->title}}</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#imageModal-{{$product->id}}">
+                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#imageModal-{{$gallery->id}}">
                         View Image
                     </button>
-                    {{--  <img src="{{asset('product-image/'.$product->image)}}"> --}}
+                    {{--  <img src="{{asset('gallery-image/'.$gallery->image)}}"> --}}
                 </td>
-                <td>{{ $product->created_at->format('d M Y | H:i') }}</td>
+                <td>{{ $gallery->created_at->format('d M Y | H:i') }}</td>
                 <td>
-                    <a href="/product-edit/{{$product->id}}" class="btn btn-primary">Edit</a>
-                    <form action="/product-delete/{{ $product->id }}" method="POST" style="display:inline;" id="delete-form-{{ $product->id }}">
+                    <a href="/gallery-edit/{{$gallery->id}}" class="btn btn-primary">Edit</a>
+                    <form action="/gallery-delete/{{ $gallery->id }}" method="POST" style="display:inline;" id="delete-form-{{ $gallery->id }}">
                         @csrf
                         @method('DELETE')
-                        <a href="javascript:;" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</a>
+                        <a href="javascript:;" class="btn btn-danger" onclick="confirmDelete({{ $gallery->id }})">Delete</a>
                     </form>
                 </td>
             </tr>
@@ -53,27 +47,29 @@
         </table>
 
         <!-- Modal -->
-        @foreach($products as $product)
-        <div class="modal fade" id="imageModal-{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-{{$product->id}}" aria-hidden="true">
+        @foreach($galleries as $gallery)
+        <div class="modal fade" id="imageModal-{{$gallery->id}}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-{{$gallery->id}}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel-{{$product->id}}">Product Image</h5>
+                        <h5 class="modal-title" id="imageModalLabel-{{$gallery->id}}">gallery Image</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <img src="{{asset('product-image/'.$product->image)}}" alt="Product Image" class="img-fluid">
+                        <img src="{{asset('gallery-image/'.$gallery->media_path)}}" alt="gallery Image" class="img-fluid">
                     </div>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
+
     <div class="d-flex justify-content-end">
-        {{ $products->links() }} 
+        {{ $galleries->links() }} 
     </div>
+
 </x-dashboard-admin>
 
 <x-script-admin>

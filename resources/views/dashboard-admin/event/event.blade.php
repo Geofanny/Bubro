@@ -1,9 +1,9 @@
 <x-dashboard-admin>
-    <h3>Product</h3>
+    <h3>Event</h3>
     <hr>
     <div class="mb-3">
-        <a href="/product-insert" class="btn btn-success">
-            New Product +
+        <a href="/event-insert" class="btn btn-success">
+            New Event +
         </a>
     </div>
     <div class="table-responsive">
@@ -11,40 +11,40 @@
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Image</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Event date</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Content</th>
                     <th scope="col">Created at</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-            @if($products->isEmpty())
+            @if($events->isEmpty())
             <tr>
                 <td colspan="8" class="text-center">No data available</td>
             </tr>
             @else
-            @foreach($products as $product)
+            @foreach($events as $event)
             <tr>
                 <th scope="row">{{$loop->iteration}}</th>
-                <td class="text-capitalize">{{$product->name}}</td>
-                <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                <td class="text-capitalize">{{$product->category->name}}</td>
-                <td>{{$product->stock}}</td>
+                <td class="text-capitalize">{{$event->title}}</td>
+                <td class="text-capitalize">{{Str::limit($event->description,50)}}</td>
+                <td class="text-capitalize">{{$event->event_date}}</td>
+                <td class="text-capitalize">{{$event->location}}</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#imageModal-{{$product->id}}">
+                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#imageModal-{{$event->id}}">
                         View Image
                     </button>
-                    {{--  <img src="{{asset('product-image/'.$product->image)}}"> --}}
+                    {{--  <img src="{{asset('event-image/'.$event->image)}}"> --}}
                 </td>
-                <td>{{ $product->created_at->format('d M Y | H:i') }}</td>
+                <td>{{ $event->created_at->format('d M Y | H:i') }}</td>
                 <td>
-                    <a href="/product-edit/{{$product->id}}" class="btn btn-primary">Edit</a>
-                    <form action="/product-delete/{{ $product->id }}" method="POST" style="display:inline;" id="delete-form-{{ $product->id }}">
+                    <a href="/event-edit/{{$event->id}}" class="btn btn-primary">Edit</a>
+                    <form action="/event-delete/{{ $event->id }}" method="POST" style="display:inline;" id="delete-form-{{ $event->id }}">
                         @csrf
                         @method('DELETE')
-                        <a href="javascript:;" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</a>
+                        <a href="javascript:;" class="btn btn-danger" onclick="confirmDelete({{ $event->id }})">Delete</a>
                     </form>
                 </td>
             </tr>
@@ -53,18 +53,18 @@
         </table>
 
         <!-- Modal -->
-        @foreach($products as $product)
-        <div class="modal fade" id="imageModal-{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-{{$product->id}}" aria-hidden="true">
+        @foreach($events as $event)
+        <div class="modal fade" id="imageModal-{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-{{$event->id}}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel-{{$product->id}}">Product Image</h5>
+                        <h5 class="modal-title" id="imageModalLabel-{{$event->id}}">event Image</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <img src="{{asset('product-image/'.$product->image)}}" alt="Product Image" class="img-fluid">
+                        <img src="{{asset('event-image/'.$event->image)}}" alt="event Image" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
         @endforeach
     </div>
     <div class="d-flex justify-content-end">
-        {{ $products->links() }} 
+        {{ $events->links() }} 
     </div>
 </x-dashboard-admin>
 

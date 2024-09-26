@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class EventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,17 +14,14 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-    	// DEFAULT AKAN MENGIKUTI PARSING DATA DI CONTROLLER
         // return parent::toArray($request);
-
     	return [
     		'id' => $this->id,
-    		'name' => $this->name,
-            'category_id' => $this->category_id,
-            'nama_kategori' => $this->category->name,
-            'price' => $this->price,
-            'stock' => $this->stock,
-            'image' => $this->image
-        ];
+    		'title' => $this->title,
+    		'description' => $this->description,
+    		'event_date' => $this->event_date,
+    		'location' => $this->location,
+    		'image' => $this->image,
+    	];
     }
 }
