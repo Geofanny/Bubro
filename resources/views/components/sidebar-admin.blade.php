@@ -15,7 +15,7 @@
 		</div>
 		<div class="navbar-nav w-100">
 			<div class="navbar-nav w-100">
-				<a href="/dashboard-admin" class="nav-item nav-link">
+				<a href="/dashboard-admin" class="nav-item nav-link {{ request()->is('dashboard-admin') ? 'active' : '' }}">
 					<i class="fa fa-tachometer-alt me-2"></i>Dashboard
 				</a>
 				<div class="nav-item dropdown <?= request()->is('product-admin') || request()->is('category-admin') ? 'show' : '' ?>">

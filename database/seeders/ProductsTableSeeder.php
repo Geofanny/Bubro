@@ -16,11 +16,11 @@ class ProductsTableSeeder extends Seeder
     {
     	$faker = Faker::create('id_ID');
 
-    	foreach (range(1, 20) as $index) {
+    	foreach (range(1, 50) as $index) {
     		Product::create([
     			'name' => $faker->word,
     			'price' => $faker->numberBetween(100, 1000),
-    			'category_id' => $faker->numberBetween(1, 5),
+    			'category_id' => $faker->numberBetween(1, 15),
     			'stock' => $faker->numberBetween(1, 100),
     			'image' => $faker->imageUrl(640, 480, 'products'),
     		]);

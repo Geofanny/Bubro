@@ -18,7 +18,7 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', function () {
-	return redirect('/product-admin');
+	return redirect('/dashboard-admin');
 });
 
 // ROUTE ADMIN

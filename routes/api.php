@@ -58,3 +58,4 @@ Route::middleware(['auth:sanctum'])->group(function(){
 // AUTH
 Route::post('/login',[AuthController::class,'login']);
 
+Route::get('/product-admin2',[ProductController::class,'index']);
